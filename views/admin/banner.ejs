@@ -1,0 +1,188 @@
+<%- include("../../views/partials/admin/header") %>
+<style>
+  /* General Styling */
+  body {
+      font-family: 'Nunito', sans-serif;
+      background-color: #f4f6f9;
+      color: #495057;
+  }
+
+  /* Header Styling */
+  .content-header {
+      background-color: #e9ecef;
+      color: #343a40;
+      padding: 1rem 1.5rem;
+      border-radius: 5px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+  }
+
+  .content-header h2 {
+      margin: 0;
+      font-weight: 600;
+  }
+
+  /* Table Styling */
+  .table {
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      margin: 0 auto; /* Centering the table */
+      width: 80%; /* Adjust table width */
+  }
+
+  .table th {
+      background-color: #f8f9fa;
+      color: #495057;
+      text-align: center;
+      padding: 1rem;
+      font-size: 1rem;
+      border-bottom: 2px solid #dee2e6;
+  }
+
+  .table td {
+      text-align: center;
+      vertical-align: middle;
+      padding: 1rem;
+      color: #6c757d;
+  }
+
+  .table-striped tbody tr:nth-of-type(odd) {
+      background-color: #f8f9fa;
+  }
+
+  .table-striped tbody tr:hover {
+      background-color: #e2e6ea;
+  }
+
+  /* Image Styling */
+  .img-xs {
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Badge Styling */
+  .badge {
+      font-size: 0.85rem;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      font-weight: 500;
+  }
+
+  .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+  }
+
+  .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+  }
+
+  /* Delete Icon */
+  .action a {
+      text-decoration: none;
+      color: #dc3545;
+      font-size: 1.5rem;
+      transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+
+  .action a:hover {
+      transform: scale(1.2);
+      color: #b21f2d;
+  }
+
+  /* Add Banner Button */
+  .btn-primary {
+      font-size: 1.1rem;
+      padding: 0.8rem 1.5rem;
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+
+  .btn-primary:hover {
+      background-color: #5a6268;
+      transform: scale(1.05);
+  }
+
+  .container {
+      margin-top: 2rem;
+      text-align: center; /* Center the button */
+  }
+
+  /* Centering the entire page content */
+  .center-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 2rem;
+  }
+</style>
+<div class="content-header row">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="content-title card-title">Banners</h2>
+    </div>
+</div>
+
+<div class="right mt-5 center-content">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Active</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (locals.data && data.length > 0) { %>
+                <% data.forEach(function(banner) { %>
+                <tr>
+                    <td>
+                        <img src="/uploads/re-image/<%= banner.image %>" style="height: 2rem; width: 3rem;" class="img-xs" alt="Item">
+                    </td>
+                    <td>
+                        <%= banner.title %>
+                    </td>
+                    <td>
+                        <%= banner.description %>
+                    </td>
+                    <td>
+                        <% if (banner.startDate < Date.now() && banner.endDate > Date.now()) { %>
+                            <p class="badge rounded-pill alert-success">Active</p>
+                        <% } else { %>
+                            <p class="badge rounded-pill alert-danger">Not Active</p>
+                        <% } %>
+                    </td>
+                    <td class="action" data-title="Remove">
+                        <a href="/admin/deleteBanner?id=<%= banner._id %>"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+                <% }); %>
+            <% } else { %>
+                <tr><td colspan="5">No Banner Found</td></tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Banner Button -->
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <a href="/admin/addBanner">
+                <button class="btn btn-primary mt-3">Add Banner</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<%- include("../../views/partials/admin/footer") %>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f4f8;
+        }
+        .container {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+        .title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .otp-input {
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            width: 100%;
+            margin-bottom: 1rem;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        .otp-input:focus {
+            border-color: #007bff;
+        }
+        .verify-btn {
+            background-color: #007bff;
+            color: #ffffff;
+            font-size: 1rem;
+            padding: 0.7rem;
+            border: none;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        .verify-btn:hover {
+            background-color: #0056b3;
+        }
+        .timer {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .resend-btn {
+            background-color: #28a745;
+            color: #ffffff;
+            font-size: 0.9rem;
+            padding: 0.6rem;
+            border: none;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+        }
+        .resend-btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">OTP Verification</div>
+        
+        <form id="otpForm" action="/verify-otp" method="POST">
+            <input type="text" name="otp" id="otp" class="otp-input" placeholder="Enter OTP" required>
+            <button type="submit" class="verify-btn">Verify OTP</button>
+        </form>
+
+        <div id="timer" class="timer">Please wait <span id="countdown">30</span> seconds to resend OTP</div>
+        <button id="resendOtpBtn" class="resend-btn" onclick="resendOtp()">Resend OTP</button>
+    </div>
+
+    <script>
+        let timer = 30;
+        const countdownDisplay = document.getElementById('countdown');
+        const resendOtpBtn = document.getElementById('resendOtpBtn');
+        
+        // Countdown timer for enabling the "Resend OTP" button
+        const countdown = setInterval(() => {
+            timer--;
+            countdownDisplay.textContent = timer;
+            if (timer === 0) {
+                clearInterval(countdown);
+                resendOtpBtn.style.display = "block"; // Show the resend button
+            }
+        }, 1000);
+
+        // Function to handle OTP resend
+        function resendOtp() {
+            fetch('/resend-otp', { method: 'POST' })
+                .then(response => response.text())
+                .then(data => {
+                    alert("A new OTP has been sent to your email.");
+                    timer = 30; // Reset the timer
+                    resendOtpBtn.style.display = "none"; // Hide the resend button again
+                    countdownDisplay.textContent = timer;
+                    setInterval(countdown, 1000); // Restart the countdown
+                })
+                .catch(error => console.error('Error resending OTP:', error));
+        }
+    </script>
+</body>
+</html>

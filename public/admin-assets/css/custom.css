@@ -1,0 +1,154 @@
+/* General Layout */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+.content-header {
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.content-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-title {
+    font-size: 30px;
+    margin-bottom: 0;
+}
+
+/* Search Form */
+input.form-control {
+    height: 35px;
+    font-size: 16px;
+    
+}
+
+.input-group {
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.btn-outline-secondary {
+    border-radius: 50px;
+  
+        background-color:brown;
+        color: white;
+        border: none;
+        background-color: #c82333;
+    }
+
+
+/* Customer Table */
+table.table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color:#fff;
+    box-shadow: 0 2px 5px rgb(229, 223, 223);
+    border-bottom: 1px solid #ddd;
+}
+
+table.table th, table.table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table.table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color:#333;
+}
+
+table.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+.search-container{
+    width:100vh;
+}
+.form {
+    margin: 20px 0;
+}
+
+.form-control {
+    width: 300px; /* Adjust width as needed */
+}
+
+.btn {
+    border-radius: 30px;
+    padding: 8px 16px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color:white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+
+/* Action Buttons */
+.btn {
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background-color:brown;
+    color: white;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-warning {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #218838;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:20px 0;
+}
+
+.pagination .page-link {
+    font-size: 16px;
+    color: #007bff;
+    padding: 8px 16px;
+    border-radius: 30px;
+    
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination .page-item:hover .page-link {
+    background-color: #e9ecef;
+    color: #007bff;
+}

@@ -1,0 +1,3 @@
+//--------------used for ignoring those files while pushing to git---------------------
+.env
+node modules/

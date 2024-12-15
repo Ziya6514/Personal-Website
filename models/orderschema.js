@@ -6,7 +6,7 @@ const {v4:uuidv4}=require('uuid')
 
 //---------------------model for orderschema-------------------
 
-const orderSchema=new Schema({
+const orderSchema=new mongoose.Schema({
     orderId:{
         type:String,
         default:()=>uuidv4(),

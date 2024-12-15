@@ -282,15 +282,17 @@
              <p>Brand:<%=products[i].brand%></p>
              <p>Price:₹<%=products[i].salePrice.toLocaleString('en-In')%><span class="text-muted"><strike>₹<%=products[i].regularPrice.toLocaleString('en-In')%></strike></span></p>
            </a>
-           <button class="add-to-cart-btn" onclick="">Add to Cart</button>
-         </div>
+     
+           <button class="add-to-cart-btn" onclick="addToCart('<%= products[i]._id %>')">Add to Cart</button>
+
+          </div>
          <%}%>
      </main>
    </div>
 
 
-<!-- Pagination -->
-<div class="pagination">
+Pagination
+ <div class="pagination">
     <% if (currentPage > 1) { %>
       <a class="btn" href="/shop?page=<%= currentPage - 1 %>">Prev</a>
     <% } %>
@@ -304,34 +306,69 @@
     <% if (currentPage < totalPages) { %>
       <a class="btn" href="/shop?page=<%= currentPage + 1 %>">Next</a>
     <% } %>
-  </div>
-
+  </div> 
 
   
  </section>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+
 <%- include("../../views/partials/user/footer") %>
 
 
 <script>
-  function addToWishlist(productId) {
+function addToWishlist(productId){
+$.ajax({
+  url:'/addToWishlist',
+  method:'POST',
+  data:{productId:productId},
+  success:(response)=>{
+    if(response.status){
+      Swal.fire({
+        title:'Added to wishlist',
+        text:'The product has been added to your wishlist',
+        icon:'success',
+        timer:2000
+      })
+    }else{
+      Swal.fire({
+        title:'Already in wishlist',
+        text:response.message,
+        icon:'info',
+        timer:2000,
+      })
+    }
+  },
+  error:(error)=>{
+   Swal.fire({
+    title:'Error',
+    text:'There was an error adding the product to your wishlist',
+    icon:'error',
+    timer:2000
+   })
+  }
+})
+}
+
+function addToCart(productId) {
+
   $.ajax({
-    url: '/addToWishlist',
+    url: '/addToCart',
     method: 'POST',
     data: { productId: productId },
     success: (response) => {
-      // Check if the response status is successful
+      console.log('Response from server:', response); // Debugging log
       if (response.status) {
         Swal.fire({
-          title: 'Added to Wishlist',
-          text: 'The product has been added to your wishlist',
+          title: 'Added to cart',
+          text: 'The product has been added to your cart',
           icon: 'success',
           timer: 2000
         });
       } else {
         Swal.fire({
-          title: 'Already in Wishlist',
+          title: 'Already in cart',
           text: response.message,
           icon: 'info',
           timer: 2000
@@ -339,9 +376,10 @@
       }
     },
     error: (error) => {
+      console.error('AJAX error:', error); // Debugging log
       Swal.fire({
         title: 'Error',
-        text: 'There was an error adding the product to your wishlist',
+        text: 'There was an error adding the product to your cart',
         icon: 'error',
         timer: 2000
       });
@@ -349,6 +387,10 @@
   });
 }
 
+
+
 </script>
+
+
 
 

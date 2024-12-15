@@ -215,9 +215,8 @@
                                   <img class="default-img" src="/uploads/re-image/<%= products[i].productImage[0] %>" alt="<%= products[i].productName %>">
                               </a>
                           </div>
-                          <a href="/addToWishlist?id=<%= products[i]._id %>" class="wishlist-btn">
-                              <i class="fas fa-heart"></i>
-                          </a>
+                          <span class="wishlist-btn" onclick="addToWishlist('<%=products[i]._id%>')">❤️</span>
+
                       </div>
                       <div class="product-content-wrap">
                           <h6><%= products[i].productName %></h6>

@@ -11,7 +11,7 @@ const adminRouter=require("./routes/adminRouter")
 db();
 
 
-//--------------------------------
+//--------------------------------user authentication, and making user information available in templates------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({

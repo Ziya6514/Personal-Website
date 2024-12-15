@@ -7,7 +7,7 @@ const {Schema}=mongoose;
 //---------------------model for couponschema-------------------
 
 const couponSchema=new mongoose.Schema({
-    naem:{
+    name:{
         type:String,
         required:true,
         unique:true
@@ -35,7 +35,7 @@ const couponSchema=new mongoose.Schema({
     },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Uset'
+        ref:'User'
     }
 })
 

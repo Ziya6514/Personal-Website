@@ -25,7 +25,7 @@ const userAuth = (req, res, next) => {
   }
 };
 //------------------admin middleware----------------------------
-const adminAuth=(req,res,next)=>{
+const adminAuth=(req,res,next)=>{// protect admin-specific routes in a web application
     User.findOne({isAdmin:true})
     .then(data=>{
         if(data){

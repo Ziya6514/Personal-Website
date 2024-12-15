@@ -8,6 +8,8 @@ const categoryController=require("../controllers/admin/categoryController")
 const brandController=require("../controllers/admin/brandController")
 const productController=require("../controllers/admin/productController")
 const bannerController=require("../controllers/admin/bannerController")
+const couponController=require("../controllers/admin/couponController")
+const orderController=require("../controllers/admin/orderController")
 const {userAuth,adminAuth} = require("../middleware/auth")
 const multer=require("multer")
 const storage=require("../helpers/multer")
@@ -55,6 +57,14 @@ router.get("/banner",adminAuth,bannerController.getBannerPage)
 router.get("/addBanner",adminAuth,bannerController.getAddBannerPage)
 router.post("/addBanner",adminAuth,uploads.single("images"),bannerController.addBanner)
 router.get("/deleteBanner",adminAuth,bannerController.deleteBanner)
+//--------------------------------coupon managment---------------------------
+router.get("/coupon",adminAuth,couponController.loadCoupon)
+router.post("/createCoupon",adminAuth,couponController.createCoupon)
+router.get("/editCoupon",adminAuth,couponController.editCoupon)
+router.post("/updatecoupon",adminAuth,couponController.updateCoupon)
+
+
+router.get("/order",adminAuth,orderController.loadorder)
 
 //-------------------------------exports the module----------------------
 module.exports=router

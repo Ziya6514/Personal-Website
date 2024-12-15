@@ -3,6 +3,8 @@ const Category=require("../../models/categoryschema")
 const Brand=require("../../models/brandschema")
 const Product=require("../../models/productschema")
 const Banner=require("../../models/bannerschema")
+const Cart=require("../../models/cartschema")
+const Address=require("../../models/addressschema")
 const env = require("dotenv").config();
 const nodemailer = require("nodemailer");
 const bcrypt = require('bcrypt');
@@ -461,6 +463,7 @@ const searchProducts=async(req,res)=>{
         res.redirect("/pageNotFound")
     }
 }
+
 
 // Exporting module
 module.exports = {

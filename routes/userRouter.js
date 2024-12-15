@@ -7,6 +7,7 @@ const profileController=require("../controllers/user/profileController")
 const { userAuth } = require('../middleware/auth'); 
 const productController=require("../controllers/user/productController")
 const wishlistController=require("../controllers/user/wishlistController")
+const cartController = require('../controllers/user/cartController');
 
 //------------------------error managment-----------------------------
 router.get("/pageNotFound",userController.pageNotFound)
@@ -59,8 +60,15 @@ router.get("/productDetails", userAuth, productController.productDetails);
 router.get("/wishlist",userAuth,wishlistController.loadWishlist)
 router.post("/addToWishlist",userAuth,wishlistController.addToWishlist)
 router.get("/removeFromWishlist",userAuth,wishlistController.removeProduct)
-//-----------------------------
-// In your userRouter.js
+// Cart Management
+router.get("/cart", userAuth, cartController.getCartPage)
+router.post("/addToCart",userAuth, cartController.addToCart)
+router.post("/changeQuantity", userAuth,cartController.changeQuantity)
+router.get("/deleteItem", userAuth, cartController.deleteProduct)
+
+
+
+
 
 //--------------------------exports module----------------------------------
 module.exports=router;

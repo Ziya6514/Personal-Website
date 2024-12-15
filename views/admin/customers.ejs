@@ -1,66 +1,151 @@
 <%- include("../../views/partials/admin/header") %>
 
-
 <link rel="stylesheet" href="/admin-assets/css/custom.css">
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #343a40;
+    }
 
-<div class="content-header row">
-    <div class="d-flex justify-content-between align-items-center">
-        <h2 class="content-title card-title">Customers</h2>
-       
-    </div>
-</div>         
-        </div>
-        
-            <header class="card-header text-center mb-20">
-                <form action="/admin/users/" method="get" class="d-flex">
-                    <div class="input-group input-group-sm border border-1 border-grey rounded-pill" style="width: 500px;margin-left: auto; margin-right:auto;">
-                        <input type="text" class="form-control border-0 rounded-pill" placeholder="Search customers..."name="search">
-                        <button class="btn  border-0"style="text-decoration: none;color:white ;background-color:darkgrey;" type="submit">Search</button>
-                    </div>
-                </form>
-            </header>
-            <div class="right mt-5">
-                <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col"><b>Name</b></th>
-                        <th scope="col"><b>Email</b></th>
-                        <th scope="col"><b>Phone No</b></th>
-                        <th scope="col"><b>Action</b></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        <% for(let i=0;i<data.length;i++){%>
-                            <tr>
-                                <td><%=data[i].name%></td>
-                                <td><%=data[i].email%></td>
-                                <td><%=data[i].phone%></td>
-                                <td> 
-                                    <%if(data[i].isBlocked===false){%>
-                                        <button class="btn btn-danger" style="width: 80px;">
-                                            <a href="/admin/blockCustomer?id=<%=data[i]._id%>" class="text-white" style="text-decoration: none;color:white;" >Block</a>
-                                        </button>
-                                        <%}else{%>
-                                        <button class="btn btn-warning" style="width: 80px;">
-                                            <a href="/admin/UnblockCustomer?id=<%= data[i]._id%>" class="text-white" style="text-decoration: none;color: white;">Unblock</a>
-                                        </button> 
-                                 <% } %>
-                                </td>
-                            </tr>
-                    <% } %>
-                    </tbody>
-                  </table>
-        </div>
-        <div class="container mt-3">
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center mb-20" style="margin-right: 200px;">
-                 <%for(let i=1;i<=totalPages;i++){%>
-                 <li class="page-item <%=(i===currentPage) ? 'active' : '' %>">
-                 <a class="page-link"  href="?page=<%= i %>"><%= i %></a>
-                 </li>
-                <%}%>
-                </ul>
-            </nav>
-        </div>
-        <%- include("../../views/partials/admin/footer") %>
+    .content-title {
+        color: #333;
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
+    .table-container {
+        width: 90%;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        background-color: #007bff;
+        color: white;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+
+    .pagination {
+        justify-content: center;
+        padding: 15px 0;
+    }
+
+    .page-item.active .page-link {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .page-link {
+        color: #007bff;
+    }
+
+    .page-link:hover {
+        text-decoration: none;
+        background-color: #e9ecef;
+    }
+</style>
+
+<div class="content-title">Customers</div>
+
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone No</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < data.length; i++) { %>
+                <tr>
+                    <td><%= data[i].name %></td>
+                    <td><%= data[i].email %></td>
+                    <td><%= data[i].phone %></td>
+                    <td>
+                        <% if (data[i].isBlocked === false) { %>
+                            <a href="/admin/blockCustomer?id=<%= data[i]._id %>" class="btn btn-danger">Block</a>
+                        <% } else { %>
+                            <a href="/admin/UnblockCustomer?id=<%= data[i]._id %>" class="btn btn-warning">Unblock</a>
+                        <% } %>
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<div class="container mt-3">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <li class="page-item <%= (i === currentPage) ? 'active' : '' %>">
+                    <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+</div>
+
+<%- include("../../views/partials/admin/footer") %>

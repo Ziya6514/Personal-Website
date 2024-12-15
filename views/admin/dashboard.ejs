@@ -2,9 +2,79 @@
 <section class="content-main">
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Dashboard </h2>
+            <h2 class="content-title card-title">Dashboard</h2>
         </div>
-       
     </div>
+
+    <!-- Dashboard Overview Section -->
+    <div class="dashboard-charts">
+        <h3>Monthly Sales & Profit Overview</h3>
+        <canvas id="monthlySalesProfitChart" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Add More Sections Below As Needed -->
 </section>
+
 <%- include("../../views/partials/admin/footer") %>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Static data for Monthly Sales and Profit (Replace with dynamic data if available)
+    const monthlySalesData = [
+        { month: "January", sales: 150, profit: 1200 },
+        { month: "February", sales: 200, profit: 1800 },
+        { month: "March", sales: 250, profit: 2200 },
+        { month: "April", sales: 300, profit: 2500 },
+        { month: "May", sales: 350, profit: 3000 },
+        { month: "June", sales: 400, profit: 3500 },
+        { month: "July", sales: 450, profit: 4000 },
+        { month: "August", sales: 500, profit: 4500 },
+        { month: "September", sales: 550, profit: 5000 },
+        { month: "October", sales: 600, profit: 5500 },
+        { month: "November", sales: 650, profit: 6000 },
+        { month: "December", sales: 700, profit: 6500 }
+    ];
+
+    // Prepare the data for the chart
+    const months = monthlySalesData.map(item => item.month);
+    const totalSales = monthlySalesData.map(item => item.sales);
+    const totalProfit = monthlySalesData.map(item => item.profit);
+
+    // Initialize the Chart.js chart
+    const ctx = document.getElementById('monthlySalesProfitChart').getContext('2d');
+    const monthlySalesProfitChart = new Chart(ctx, {
+        type: 'line', // Line chart to show product sales and profit over months
+        data: {
+            labels: months, // Months for the x-axis
+            datasets: [
+                {
+                    label: 'Total Sales', // Label for the sales dataset
+                    data: totalSales, // Total sales data
+                    borderColor: 'rgba(54, 162, 235, 1)', // Blue color for sales line
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)', // Light blue fill for sales line
+                    fill: true, // Fill the area under the line
+                    tension: 0.4, // Smooth the line
+                    borderWidth: 2
+                },
+                {
+                    label: 'Total Profit', // Label for the profit dataset
+                    data: totalProfit, // Total profit data
+                    borderColor: 'rgba(255, 99, 132, 1)', // Red color for profit line
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Light red fill for profit line
+                    fill: true, // Fill the area under the line
+                    tension: 0.4, // Smooth the line
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true // Ensure the y-axis starts at 0
+                }
+            }
+        }
+    });
+</script>

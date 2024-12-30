@@ -8,7 +8,9 @@ const { userAuth } = require('../middleware/auth');
 const productController=require("../controllers/user/productController")
 const wishlistController=require("../controllers/user/wishlistController")
 const cartController = require('../controllers/user/cartController');
-
+// const checkoutController = require('../controllers/user/checkoutController');
+const orderController=require("../controllers/user/orderController")
+const walletController = require("../controllers/user/walletController");
 //------------------------error managment-----------------------------
 router.get("/pageNotFound",userController.pageNotFound)
 //----------------------user signup managment-------------------------
@@ -33,6 +35,9 @@ router.get("/shop",userAuth,userController.loadShoppingPage)
 router.post("/search",userAuth,userController.searchProducts)
 router.get("/filter",userAuth,userController.filterProduct)
 router.get("/filterPrice",userAuth,userController.filterByPrice)
+router.get("/about", (req, res) => {
+    res.render("about"); 
+});
 //-----------------------profile managment-------------------------------
 router.get("/forget-password",profileController.getForgotPassPage)
 router.post("/forgot-email-valid",profileController.forgotEmailValid)
@@ -60,11 +65,33 @@ router.get("/productDetails", userAuth, productController.productDetails);
 router.get("/wishlist",userAuth,wishlistController.loadWishlist)
 router.post("/addToWishlist",userAuth,wishlistController.addToWishlist)
 router.get("/removeFromWishlist",userAuth,wishlistController.removeProduct)
-// Cart Management
-router.get("/cart", userAuth, cartController.getCartPage)
-router.post("/addToCart",userAuth, cartController.addToCart)
-router.post("/changeQuantity", userAuth,cartController.changeQuantity)
-router.get("/deleteItem", userAuth, cartController.deleteProduct)
+// --------------------------------------Cart Management
+router.get("/cart", userAuth, cartController.cart); // Cart page for logged-in users
+router.get("/guest-cart", cartController.guestCart); // Cart page for guest users
+router.post("/addToCart", userAuth, cartController.addToCart); // Add to cart
+router.post("/changeQuantity", userAuth, cartController.updateQuantity); // Update quantity
+router.get("/removeFromCart", userAuth, cartController.removeFromCart); // Remove item from cart
+
+//------------------------------------
+router.get("/checkout", userAuth,orderController.getCheckoutPage);
+router.get("/deleteItem", userAuth, orderController.deleteProduct);
+router.post("/applyCoupon",userAuth,orderController.applyCoupon);
+router.post("/orderPlaced", userAuth,orderController.orderPlaced);
+router.get("/orderDetails", userAuth,orderController.getOrderDetailsPage);
+router.post("/cancelOrder",userAuth,orderController.cancelOrder);
+router.post("/returnrequestOrder",userAuth,orderController.returnorder);
+router.post("/verifyPayment", userAuth, orderController.verify);
+router.post("/singleProductId",userAuth,orderController.changeSingleProductStatus);
+router.post('/paymentConfirm',userAuth,orderController.paymentConfirm);
+router.get("/downloadInvoice/:orderId",userAuth,orderController.downloadInvoice);
+//------------------------------------
+router.post("/addMoney", userAuth, walletController.addMoneyToWallet)
+router.post("/verify-payment", userAuth, walletController.verify_payment)
+
+
+
+
+
 
 
 

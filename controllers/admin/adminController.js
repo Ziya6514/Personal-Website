@@ -2,7 +2,9 @@
 const User =require("../../models/userschema")
 const mongoose=require("mongoose")
 const bcrypt=require("bcrypt")
-
+const Category = require("../../models/categoryschema"); // Assuming you have a category schema
+const Product = require("../../models/productschema"); // Assuming you have a product schema
+const Order = require("../../models/orderschema"); // 
 
 //------------function difine for error page------------------
 const pageerror=async (req,res)=>{
@@ -40,15 +42,46 @@ const login=async(req,res)=>{
     }
 }
 //----------------function define for after login dashboard---------------------
-const loadDashboard=async(req,res)=>{
-    if(req.session.admin){
+const loadDashboard = async (req, res) => {
+    if (req.session.admin) {
         try {
-            res.render("dashboard");
+            // Fetch data dynamically
+            const totalCategories = await Category.countDocuments();
+            const totalProducts = await Product.countDocuments();
+            const totalUsers = await User.countDocuments({ isAdmin: false }); // Only count non-admin users
+            const totalOrders = await Order.countDocuments();
+
+            // Calculate revenue
+            const codRevenue = await Order.aggregate([
+                { $match: { paymentMethod: "COD" } },
+                { $group: { _id: null, total: { $sum: "$amount" } } },
+            ]);
+
+            const stripeRevenue = await Order.aggregate([
+                { $match: { paymentMethod: "Stripe" } },
+                { $group: { _id: null, total: { $sum: "$amount" } } },
+            ]);
+
+            const totalRevenue = (codRevenue[0]?.total || 0) + (stripeRevenue[0]?.total || 0);
+
+            // Render the dashboard with fetched data
+            res.render("dashboard", {
+                totalCategories,
+                totalProducts,
+                totalUsers,
+                totalOrders,
+                codRevenue: codRevenue[0]?.total || 0,
+                stripeRevenue: stripeRevenue[0]?.total || 0,
+                totalRevenue,
+            });
         } catch (error) {
-            res.redirect("/pageerror")
+            console.error("Error loading dashboard:", error);
+            res.redirect("/pageerror");
         }
+    } else {
+        res.redirect("/admin/login");
     }
-}
+};
 //----------------logout function--------------------
 const logout=(req,res)=>{
     try {

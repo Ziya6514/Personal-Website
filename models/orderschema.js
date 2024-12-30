@@ -51,7 +51,7 @@ const orderSchema=new mongoose.Schema({
     status:{
         type:String,
         required:true,
-        enum :['Pending','Processing','Shipped','Delivered','Cancelled','Return Request','Returned']
+        enum :['Pending','Processing','Shipped','Delivered','Cancelled','Return Request','Returned','Confirmed','Failed']
     },
     createdOn :{
         type:Date,
@@ -61,7 +61,13 @@ const orderSchema=new mongoose.Schema({
     couponApplied:{
         type:Boolean,
         default:false
+    },
+    payment:{
+        type:String,
+        required:true,
+        enum:['cod','razopay','wallet']
     }
+
 })
 
 const Order =mongoose.model("Order",orderSchema)

@@ -4,6 +4,8 @@ const User=require("../models/userschema")
 
 //------------------user middleware------------------------
 const userAuth = (req, res, next) => {
+  console.log('User Session:', req.session.user); // Add this line to debug session
+
   if (req.session.user && req.session.user.id) {  // Ensure the user is logged in and their ID exists in the session
     User.findById(req.session.user.id)
       .then(data => {

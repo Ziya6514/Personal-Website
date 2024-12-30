@@ -137,6 +137,219 @@
 .btn:active {
     transform: translateY(1px);
 }
+/* Hero Section */
+.hero-slider {
+    background: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero-slider .single-slider-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+}
+
+.hero-slider .single-slider-content p {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
+/* Banner Section */
+.banner-area .single-banner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.banner-area .single-banner:hover {
+    transform: scale(1.05);
+}
+
+.banner-area .banner-description {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: black;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.banner-area .single-banner a {
+    display: block;
+}
+
+.banner-area .btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #ff6b6b;
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 30px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.banner-area .btn:hover {
+    background-color: #ff4c4c;
+    transform: translateY(-2px);
+}
+
+.banner-area .btn:active {
+    transform: translateY(1px);
+}
+
+/* Product Section */
+.product-cart-wrap {
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.product-cart-wrap:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-cart-wrap .product-img-action-wrap {
+    position: relative;
+}
+
+.product-cart-wrap .product-img {
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.product-cart-wrap .product-img img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.product-cart-wrap .product-img:hover img {
+    transform: scale(1.1);
+}
+
+.product-cart-wrap .product-content-wrap h6 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.product-cart-wrap .product-content-wrap h5 {
+    font-size: 20px;
+    color: #ff6b6b;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.product-cart-wrap .product-content-wrap a {
+    padding: 10px 20px;
+    background-color: #ff6b6b;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.product-cart-wrap .product-content-wrap a:hover {
+    background-color: #ff4c4c;
+    transform: translateY(-2px);
+}
+
+.product-cart-wrap .product-content-wrap a:active {
+    transform: translateY(1px);
+}
+
+/* Wishlist Button */
+.wishlist-btn {
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 12px;
+    border-radius: 50%;
+    color: #ff6b6b;
+    font-size: 20px;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.wishlist-btn:hover {
+    background-color: rgba(255, 255, 255, 1);
+    color: #ff4c4c;
+    transform: translateY(-2px);
+}
+
+.wishlist-btn:active {
+    transform: translateY(1px);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .hero-slider .single-slider-content p {
+        font-size: 20px;
+    }
+
+    .product-cart-wrap {
+        margin-bottom: 20px;
+    }
+
+    .product-cart-wrap .product-img img {
+        width: 100%;
+        height: auto;
+    }
+
+    .product-cart-wrap .product-content-wrap h6 {
+        font-size: 16px;
+    }
+
+    .product-cart-wrap .product-content-wrap h5 {
+        font-size: 18px;
+    }
+
+    .banner-area .btn {
+        font-size: 14px;
+    }
+}
+
+/* Swiper Styling */
+.swiper-container {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.swiper-slide {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #ff6b6b;
+}
+
+.swiper-pagination-bullet {
+    background-color: #ff6b6b;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #ff4c4c;
+}
 
 </style>
 

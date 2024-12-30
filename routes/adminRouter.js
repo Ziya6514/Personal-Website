@@ -64,7 +64,10 @@ router.get("/editCoupon",adminAuth,couponController.editCoupon)
 router.post("/updatecoupon",adminAuth,couponController.updateCoupon)
 
 
-router.get("/order",adminAuth,orderController.loadorder)
+router.get("/orderList", adminAuth, orderController.getOrderListPageAdmin)
+router.get("/orderDetailsAdmin", adminAuth, orderController.getOrderDetailsPageAdmin)
+router.get("/changeStatus", adminAuth, orderController.changeOrderStatus);
+
 
 //-------------------------------exports the module----------------------
 module.exports=router

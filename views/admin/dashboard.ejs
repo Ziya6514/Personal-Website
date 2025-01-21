@@ -1,102 +1,116 @@
 <%- include("../../views/partials/admin/header") %>
 
+<style>
+    body {
+        background-color: #f7f8fa;
+        font-family: Arial, sans-serif;
+    }
+
+    .content-main {
+        padding: 20px;
+    }
+
+    .dashboard-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+    }
+
+    .card h5 {
+        font-size: 1rem;
+        color: #6c757d;
+    }
+
+    .card h2 {
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+
+    .card i {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: #495057;
+    }
+
+    .chart-container {
+        margin-top: 30px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
 <section class="content-main">
-    <div class="content-header">
-        <h2 class="content-title card-title">Admin Dashboard</h2>
-    </div>
+    <h2>Admin Dashboard</h2>
 
-    <!-- Dashboard Overview Section -->
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card card-body">
-                <h5>Total Categories</h5>
-                <h2><%= totalCategories %></h2>
-            </div>
+    <div class="dashboard-cards">
+        <div class="card">
+            <i class="fas fa-th-list"></i>
+            <h5>Total Categories</h5>
+            <h2><%= totalCategories %></h2>
         </div>
-        <div class="col-md-3">
-            <div class="card card-body">
-                <h5>Total Products</h5>
-                <h2><%= totalProducts %></h2>
-            </div>
+        <div class="card">
+            <i class="fas fa-cogs"></i>
+            <h5>Total Products</h5>
+            <h2><%= totalProducts %></h2>
         </div>
-        <div class="col-md-3">
-            <div class="card card-body">
-                <h5>Total Users</h5>
-                <h2><%= totalUsers %></h2>
-            </div>
+        <div class="card">
+            <i class="fas fa-users"></i>
+            <h5>Total Users</h5>
+            <h2><%= totalUsers %></h2>
         </div>
-        <div class="col-md-3">
-            <div class="card card-body">
-                <h5>Total Orders</h5>
-                <h2><%= totalOrders %></h2>
-            </div>
+        <div class="card">
+            <i class="fas fa-shopping-cart"></i>
+            <h5>Total Orders</h5>
+            <h2><%= totalOrders %></h2>
         </div>
     </div>
 
-    <!-- Revenue Section -->
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card card-body">
-                <h5>COD Revenue</h5>
-                <h2>$<%= codRevenue.toFixed(2) %></h2>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-body">
-                <h5>Stripe Revenue</h5>
-                <h2>$<%= stripeRevenue.toFixed(2) %></h2>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-body">
-                <h5>Total Revenue</h5>
-                <h2>$<%= totalRevenue.toFixed(2) %></h2>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sales & Profit Chart Section -->
-    <div class="dashboard-charts mt-5">
+    <div class="chart-container">
         <h3>Monthly Sales & Revenue Overview</h3>
-        <canvas id="salesRevenueChart" width="400" height="200"></canvas>
+        <canvas id="salesRevenueChart"></canvas>
     </div>
 </section>
 
 <%- include("../../views/partials/admin/footer") %>
 
-<!-- Chart.js Script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Placeholder for Monthly Sales & Revenue Data
     const monthlyData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         sales: [150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700],
         revenue: [1200, 1800, 2200, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500]
     };
 
     const ctx = document.getElementById("salesRevenueChart").getContext("2d");
     new Chart(ctx, {
-        type: "line",
+        type: "bar",
         data: {
             labels: monthlyData.labels,
             datasets: [
                 {
-                    label: "Monthly Sales",
+                    label: "Sales",
                     data: monthlyData.sales,
-                    borderColor: "rgba(54, 162, 235, 1)",
-                    backgroundColor: "rgba(54, 162, 235, 0.2)",
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 2
+                    backgroundColor: "rgba(54, 162, 235, 0.7)",
                 },
                 {
-                    label: "Monthly Revenue",
+                    label: "Revenue",
                     data: monthlyData.revenue,
-                    borderColor: "rgba(75, 192, 192, 1)",
-                    backgroundColor: "rgba(75, 192, 192, 0.2)",
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 2
+                    backgroundColor: "rgba(75, 192, 192, 0.7)",
                 }
             ]
         },

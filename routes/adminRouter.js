@@ -62,9 +62,9 @@ router.get("/coupon",adminAuth,couponController.loadCoupon)
 router.post("/createCoupon",adminAuth,couponController.createCoupon)
 router.get("/editCoupon",adminAuth,couponController.editCoupon)
 router.post("/updatecoupon",adminAuth,couponController.updateCoupon)
+router.get("/deleteCoupon",adminAuth,couponController.deleteCoupon)
 
-
-router.get("/orderList", adminAuth, orderController.getOrderListPageAdmin)
+router.get("/order", adminAuth, orderController.getOrderListPageAdmin)
 router.get("/orderDetailsAdmin", adminAuth, orderController.getOrderDetailsPageAdmin)
 router.get("/changeStatus", adminAuth, orderController.changeOrderStatus);
 

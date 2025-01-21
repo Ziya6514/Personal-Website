@@ -1,5 +1,3 @@
-
-//----------------------------------------loadcoupon function defnition-------------------------------------
 const User = require("../../models/userschema");
 const Product = require("../../models/productschema");
 const Address = require("../../models/addressschema");

@@ -148,87 +148,70 @@ const addToCart = async (req, res) => {
 };
 
 
-// =============================== update quantity ==============================
-
-// const updateQuantity = async (req, res) => {
-//   try {
-//     log('in ')
-//       const { productId } = req.params;  // Get productId from URL parameters
-//       let quantity = parseInt(req.body.quantity);// Get updated quantity from request body
-
-//      log(productId, 'product id in updateQuantity');
-//      log('quantity in updateQuantity', quantity);   
-//      console.log('User ID:', req.session.user);
-
-//       log('in ')
-//     log('in ')
-
-//       // Find the cart for the current user and update the quantity of the specified product
-//       const cart = await Cart.findOneAndUpdate(
-//           { userId: req.session.user, 'item.productId': productId },
-//           { $set: { 'item.$.quantity': quantity } }, // Update the quantity
-//           { new: true } // Return the updated document
-//       );
-//        log(cart)
-//       if (!cart) {
-//           return res.status(404).json({ success: false, message: 'Cart not found' });
-//       }
-
-//      log(cart, 'updated cart');
-//       res.json({ success: true, cart, message: 'Cart updated successfully' });
-//   } catch (error) {
-//      log(error);
-//       res.status(500).json({ success: false, message: 'Server error' });
-//   }
-// }
 
 const updateQuantity = async (req, res) => {
   try {
     const { productId } = req.params;
     const quantity = parseInt(req.body.quantity); 
-    const userId = req.session.user.id; 
+    const userId = req.session.user.id;
+
     console.log(productId, 'Product ID in updateQuantity');
     console.log('Quantity in updateQuantity', quantity);
     console.log('User ID:', userId);
 
+    // Fetch the product price correctly
     const product = await Product.findById(productId);
-    const salePrice = product.salePrice; 
+    if (!product) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
 
-    const totalPrice = quantity * salePrice; 
-    const cart = await Cart.findOneAndUpdate(
-      { userId: userId, 'items.productId': productId },
-      { 
-        $set: { 
-          'items.$.quantity': quantity,
-          'items.$.totalprice': totalPrice 
-        } 
-      },
-      { new: true } 
-    );
+    const price = product.salePrice || product.regularPrice; // Ensure correct price selection
+    const totalPrice = quantity * price; 
+
+    // Find the cart and update the product's quantity and total price
+    const cart = await Cart.findOne({ userId });
 
     if (!cart) {
       return res.status(404).json({ success: false, message: 'Cart not found' });
     }
 
-    let  grandTotal= 0;
+    // Find the specific product in the cart
+    const itemIndex = cart.items.findIndex(item => item.productId.toString() === productId);
+    if (itemIndex === -1) {
+      return res.status(404).json({ success: false, message: 'Product not found in cart' });
+    }
 
+    // Update quantity and total price
+    cart.items[itemIndex].quantity = quantity;
+    cart.items[itemIndex].totalprice = totalPrice;
+
+    // Recalculate the grand total
+    let grandTotal = 0;
     cart.items.forEach(item => {
-      const itemTotalPrice = Number(item.totalprice); 
-      if (!isNaN(itemTotalPrice)) {
-         grandTotal+= itemTotalPrice; 
-      }
+      grandTotal += item.totalprice;
     });
 
-    console.log('Grand Total Price:',  grandTotal);
-    cart. grandTotal=  grandTotal;
+    // Update cart's grand total
+    cart.grandTotal = grandTotal;
+
+    // Save the updated cart
     await cart.save();
-    return res.status(200).json({ success: true, cart,  grandTotal}); 
+
+    console.log('Updated Grand Total:', grandTotal);
+    
+    return res.status(200).json({ 
+      success: true, 
+      cart, 
+      grandTotal, 
+      updatedPrice: totalPrice // Send updated price for UI updates
+    });
 
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+
   
 
 // ================ Remove product from the cart ==================
@@ -249,8 +232,9 @@ const removeFromCart = async (req, res) => {
             cart.items.splice(itemIndex, 1);
             await cart.save();
 
-            return res.status(200).json({ status: true, message: 'Product removed from cart successfully' });
-        } else {
+            res.redirect('/cart');
+
+          } else {
             return res.status(404).json({ status: false, message: 'Product not found in cart' });
         }
     } catch (error) {

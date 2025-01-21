@@ -1,4 +1,5 @@
 const Coupon=require("../../models/couponSchema")
+const mongoose = require("mongoose");
 
 
 //----------------------------------------loadcoupon function defnition-------------------------------------
@@ -31,6 +32,7 @@ const createCoupon=async(req,res)=>{
         await newCoupon.save()
         return res.redirect("/admin/coupon")
     } catch (error) {
+        console.log("adding coupon error........",error)
         res.redirect("/pageerror")
     }
 }
@@ -47,14 +49,23 @@ const editCoupon=async (req,res)=>{
     }
 }
 //------------------------------
-const updateCoupon=async(req,res)=>{
+const updateCoupon = async (req, res) => {
     try {
-     const couponId = req.body.couponId
-       const oid=new mongoose.Types.ObjectId(couponId)
-       const selectedCoupon=await Coupon.findOne({_id:oid})
-       if(selectedCoupon){
-        const startDate=new Date(req.body.startDate)
-        const endDate=new Date(req.body.endDate)
+        const couponId = req.body.couponId;
+        const oid = new mongoose.Types.ObjectId(couponId);
+
+        console.log("Received Coupon ID:", couponId);
+        console.log("New Coupon Name:", req.body.couponName);
+        console.log("New Offer Price:", req.body.offerPrice);
+
+        const selectedCoupon = await Coupon.findById(oid);
+        if (!selectedCoupon) {
+            return res.status(404).send("Coupon not found");
+        }
+
+        const startDate = new Date(req.body.startDate);
+        const endDate = new Date(req.body.endDate);
+
         const updatedCoupon = await Coupon.updateOne(
             { _id: oid },
             {
@@ -65,23 +76,35 @@ const updateCoupon=async(req,res)=>{
                     offerPrice: parseInt(req.body.offerPrice),
                     minimumPrice: parseInt(req.body.minimumPrice),
                 },
-            },
-            { new: true }
+            }
         );
-        
-        if(updatedCoupon!==null){
-            res.send("Coupon updated successfully")
-        }else{
-            res.status(500).send("Coupon update failed")
+
+        if (updatedCoupon.modifiedCount > 0) {
+            res.send("Coupon updated successfully");
+        } else {
+            res.status(500).send("Failed to update the coupon. No changes detected.");
         }
-       }
     } catch (error) {
-        res.redirect("/pageerror")
+        console.error("Error updating coupon:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+const deleteCoupon=async(req,res)=>{
+    try {
+        const id=req.query.id
+        await Coupon.deleteOne({_id:id})
+        res.status(200).send({success:true,message:"Coupon deleted successfully"})
+    } catch (error) {
+        console.log("Error deleting coupon...........",error)
+        res.status(500).send({success:false,message:"Failed to delete coupon"})
     }
 }
+
 module.exports={
     loadCoupon,
     createCoupon,
     editCoupon,
     updateCoupon,
+    deleteCoupon
 }

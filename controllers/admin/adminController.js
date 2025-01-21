@@ -57,12 +57,12 @@ const loadDashboard = async (req, res) => {
                 { $group: { _id: null, total: { $sum: "$amount" } } },
             ]);
 
-            const stripeRevenue = await Order.aggregate([
-                { $match: { paymentMethod: "Stripe" } },
+            const razorpayRevenue = await Order.aggregate([
+                { $match: { paymentMethod: "Razorpay" } },
                 { $group: { _id: null, total: { $sum: "$amount" } } },
             ]);
 
-            const totalRevenue = (codRevenue[0]?.total || 0) + (stripeRevenue[0]?.total || 0);
+            const totalRevenue = (codRevenue[0]?.total || 0) + (razorpayRevenue[0]?.total || 0);
 
             // Render the dashboard with fetched data
             res.render("dashboard", {
@@ -71,7 +71,7 @@ const loadDashboard = async (req, res) => {
                 totalUsers,
                 totalOrders,
                 codRevenue: codRevenue[0]?.total || 0,
-                stripeRevenue: stripeRevenue[0]?.total || 0,
+                razorpayRevenue: razorpayRevenue[0]?.total || 0,
                 totalRevenue,
             });
         } catch (error) {

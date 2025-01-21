@@ -1,5 +1,34 @@
 <%- include("../../views/partials/user/header") %>
+<script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+<style>
+  .table {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+  }
 
+  .table th,
+  .table td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    vertical-align: middle;
+  }
+
+  .table thead th {
+    background-color: #f8f9fa;
+    color: #343a40;
+    font-weight: bold;
+  }
+
+  .table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  .table-responsive {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 10px;
+  }
+</style>
 <div class="container mt-5">
   <h2>Shopping Cart</h2>
 
@@ -45,7 +74,8 @@
                   </td>
                   <td class="action">
                     <a class="btn btn-sm remove-btn" href="#" onclick="confirmRemoveFromCart('<%= product.productId._id %>')">
-                      <i class="fa-solid fa-trash"></i> Remove
+                      <i class="fas fa-trash"></i>
+
                     </a>
                   </td>
                 </tr>
@@ -60,9 +90,8 @@
       </div>
     </div>
   <% } %>
-
   <div class="mt-4">
-    <a href="/checkout" class="btn btn-primary">Proceed to Checkout</a>
+    <a href="/checkout" class="btn btn-primary" style="background-color: green; border-color: green;">Proceed to Checkout</a>
     <a href="/" class="btn btn-secondary">Continue Shopping</a>
   </div>
 
@@ -108,7 +137,7 @@
   if (response.success) {
     let updatedProduct = response.cart.items.find(item => item.productId == productId);
     if (updatedProduct) {
-      let updatedTotalPrice = updatedProduct.totalPrice;
+      let updatedTotalPrice = updatedProduct.totalprice;
       document.querySelector(`#total-price-${productId}`).textContent = '₹' + updatedTotalPrice.toFixed(2);
     } else {
       console.error('Product not found in response.');

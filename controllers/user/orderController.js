@@ -15,8 +15,8 @@ const path = require("path");
 const easyinvoice = require("easyinvoice");
 const Coupon = require("../../models/couponSchema");
 let instance = new razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
+  key_id: "rzp_test_In4tgyU5gotrDo",
+  key_secret: "EvrivaK3BJxmfcGJd3rFyxYL",
 });
 
 
@@ -46,8 +46,6 @@ const getCheckoutPage = async (req, res) => {
 
       // Fetching the user's address data
       const addressData = await Address.findOne({ userId:userId});
-      console.log('Fetched Address Data:', addressData);
-
       let addresses = [];
       if (addressData && addressData.address && addressData.address.length > 0) {
           addresses = addressData.address; // Access the address array inside the Address document
@@ -277,7 +275,7 @@ console.log("new order...........",newOrder)
       }
     } else if (newOrder.payment === "razorpay") {
       const razorPayGeneratedOrder = await generateOrderRazorpay(orderDone._id, orderDone.finalAmount);
-      console.log("Razorpay order generated for order:", orderDone._id);
+      console.log("Razorpay order generated for order:", razorPayGeneratedOrder);
       res.json({
         payment: false,
         method: "razorpay",
@@ -477,6 +475,8 @@ const generateOrderRazorpay = (orderId, total) => {
     });
   });
 };
+
+
 //==================================================================
 const verify = (req, res) => {
   let hmac = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET);
@@ -559,7 +559,6 @@ const downloadInvoice = async (req, res) => {
       res.status(500).send('An error occurred while generating the invoice');
   }
 };
-
 
 
 

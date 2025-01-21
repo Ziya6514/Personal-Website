@@ -21,23 +21,32 @@
 body {
     background-color: #ffffff;
 }
+/* Navbar Background */
 .navbar {
-    background-color: #8da7ab;
+  background-color: lightslategray;
 }
+
+/* Sidebar Background */
 .navbar-aside {
-    background-color: #b0d5de;
-    
+  background-color: lightslategray;
 }
 
+/* Menu Link Style */
 .menu-item a.menu-link {
-    color: #310505;
+  color: black;
+  font-size: 1rem; /* Increase font size (adjust this value as needed) */
+  font-weight: 400; /* Optional: make text bold */
+  padding: 10px 15px;
 }
 
+/* Hover and Active States */
 .menu-item a.menu-link:hover,
 .menu-item a.menu-link.active {
-    background-color: #6e7e6e; 
-    color: #ffffff;
+  background-color: #6e7e6e;
+  color: #ffffff;
+  font-weight: 700; /* Make the text bold on hover or active */
 }
+
 .dropdown-menu {
     background-color: #bb9aaf;
 }
@@ -47,9 +56,32 @@ body {
     color: #ffffff;
 }
 .brand-wrap img {
-    height: 40px;
+    height: 20px;
     
 }
+/* Style the Logout Dropdown Item */
+.dropdown-item.text-danger {
+  color: #dc3545; /* Set the default text color to red (Bootstrap's 'text-danger') */
+  font-size: 1.1rem; /* Increase font size */
+  padding: 10px 20px; /* Adjust padding for better spacing */
+  display: flex;
+  align-items: center; /* Align icon and text vertically */
+  border-radius: 5px; /* Round the corners */
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Change color and background on hover */
+.dropdown-item.text-danger:hover {
+  background-color: #f8d7da; /* Light red background on hover */
+  color: #a71d2a; /* Darker red text color */
+}
+
+/* Style the Material Icon */
+.material-icons.md-exit_to_app {
+  font-size: 1.3rem; /* Increase icon size */
+  margin-right: 10px; /* Add space between the icon and the text */
+}
+
 
 
 </style>
@@ -87,13 +119,13 @@ body {
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="/admin/users"> <i class="fa-solid fa-user-large"></i>
+                    <a class="menu-link" href="/admin/users"> <i class="fas fa-users"></i>
                         <span class="text">Customers</span>
                     </a>
 
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="/admin/category"> <i class="fa-solid fa-user-large"></i>
+                    <a class="menu-link" href="/admin/category"> <i class="fas fa-th-list"></i>
                         <span class="text">Category</span>
                     </a>
 
@@ -108,7 +140,7 @@ body {
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a class="menu-link" href="/admin/products"> <i class="fa-solid fa-bag-shopping"></i>
+                    <a class="menu-link" href="/admin/products"> <i class="fas fa-cogs"></i>
                         <span class="text">Products</span>
                     </a>
                 </li>
@@ -134,17 +166,17 @@ body {
         <header class="main-header navbar">
             <div class="col-search">
             </div>
-            <!-- <div class="col-nav">
+            <div class="col-nav">
                 <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
                 <ul class="nav">
                     <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/public/admin-assets/imgs/people/avatar2.png" alt="User"></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                        <!-- <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/public/admin-assets/imgs/people/avatar2.png" alt="User"></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount"> -->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
                         </div>
                     </li>
                     
                 </ul>
-            </div> -->
+            </div>
         </header>
